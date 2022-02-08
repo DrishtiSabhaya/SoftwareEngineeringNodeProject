@@ -1,11 +1,38 @@
-import express, {Request, Response} from 'express';
+import User from "./models/User";
+
+const express = require('express');
+const mongoose = require("mongoose");
 const app = express();
 
-app.get('/hello', (req: Request, res: Response) =>
+import TuitController from "./controller/TuitController";
+import UserDao from "./daos/UserDao";
+import UserController from "./controller/UserController";
+
+const port = 4000;
+const dbname = "tuitdb";
+const username = "drishti";
+const password = "1234";
+var uri = "tuitdb";
+var url = "mongodb+srv://drishti7:drishti@cluster0.s1acl.mongodb.net/tuitsdb?retryWrites=true&w=majority";
+
+mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true });
+
+const connection = mongoose.connection;
+
+connection.once("open", function() {
+    console.log("MongoDB database connection established successfully");
+});
+
+app.listen(port, function() {
+    console.log("Server is running on Port: " + port);
+});
+
+app.use(express.json());
+
+const tuitController = TuitController.getInstance(app);
+const userDao = new UserDao();
+const userController = new UserController(app, userDao);
+
+app.get('/hello', (req:any, res: any) =>
     res.send('Hello World!'));
 
-app.get('/add/:a/:b', (req: Request, res: Response) =>
-    res.send(req.params.a + req.params.b));
-
-const PORT = 4000;
-app.listen(process.env.PORT || PORT);
