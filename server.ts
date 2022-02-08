@@ -8,7 +8,7 @@ import TuitController from "./controller/TuitController";
 import UserDao from "./daos/UserDao";
 import UserController from "./controller/UserController";
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 const dbname = "tuitdb";
 const username = "drishti";
 const password = "1234";
