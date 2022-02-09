@@ -8,7 +8,7 @@ import TuitController from "./controller/TuitController";
 import UserDao from "./daos/UserDao";
 import UserController from "./controller/UserController";
 
-const port = process.env.PORT ? process.env.PORT !== undefined : 4000;
+const port = process.env.PORT || 4000;
 
 var url = "mongodb+srv://drishti7:drishti@cluster0.s1acl.mongodb.net/tuitsdb?retryWrites=true&w=majority";
 
