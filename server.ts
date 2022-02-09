@@ -33,6 +33,3 @@ const userController = new UserController(app, userDao);
 app.get('/hello', (req:any, res: any) =>
     res.send('Hello World!'));
 
-app.get('/', (req:any, res: any) =>
-    res.send('Welcome!'));
-
