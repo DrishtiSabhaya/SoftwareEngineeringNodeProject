@@ -8,11 +8,8 @@ import TuitController from "./controller/TuitController";
 import UserDao from "./daos/UserDao";
 import UserController from "./controller/UserController";
 
-const port = process.env.PORT || 4000;
-const dbname = "tuitdb";
-const username = "drishti";
-const password = "1234";
-var uri = "tuitdb";
+const port = process.env.PORT ? process.env.port !== undefined : 4000;
+
 var url = "mongodb+srv://drishti7:drishti@cluster0.s1acl.mongodb.net/tuitsdb?retryWrites=true&w=majority";
 
 mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true });
@@ -35,4 +32,7 @@ const userController = new UserController(app, userDao);
 
 app.get('/hello', (req:any, res: any) =>
     res.send('Hello World!'));
+
+app.get('/', (req:any, res: any) =>
+    res.send('Welcome!'));
 
