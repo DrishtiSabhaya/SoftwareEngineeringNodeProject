@@ -1,3 +1,6 @@
+/**
+ * Represents an enumertaion of the account type of the user
+ */
 enum AccountType {
     Personal = 'PERSONAL',
     Academic = 'ACADEMIC',
