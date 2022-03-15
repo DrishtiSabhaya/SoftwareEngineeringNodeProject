@@ -9,13 +9,7 @@
  *     <li>bookmarks</li>
  *     <li>messages</li>
  * </ul>
- *
- * Connects to a remote MongoDB instance hosted on the Atlas cloud database
- * service
  */
-const express = require('express');
-const mongoose = require("mongoose");
-const app = express();
 
 import TuitController from "./controller/TuitController";
 import UserController from "./controller/UserController";
@@ -23,6 +17,17 @@ import LikeController from "./controller/LikeController";
 import FollowController from "./controller/FollowController";
 import BookmarkController from "./controller/BookmarkController";
 import MessageController from "./controller/MessageController";
+import CourseController from "./controller/CourseController";
+var cors = require('cors')
+
+/** Connects to a remote MongoDB instance hosted on the Atlas cloud database
+* service
+*/
+const express = require('express');
+const mongoose = require("mongoose");
+const app = express();
+app.use(express.json());
+app.use(cors());
 
 // port
 const port = process.env.PORT || 4000;
@@ -55,10 +60,13 @@ const likeController = LikeController.getInstance(app);
 const followController = FollowController.getInstance(app);
 const bookmarkController = BookmarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
+const courseController = new CourseController(app);
 
 app.get('/hello', (req:any, res: any) =>
     res.send('Hello World!'));
 
 app.get('/', (req:any, res: any) =>
     res.send('Welcome!'));
-
+//
+// const PORT = 2000;
+// app.listen(process.env.PORT || PORT);
