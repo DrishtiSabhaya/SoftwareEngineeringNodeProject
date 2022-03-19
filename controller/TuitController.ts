@@ -4,6 +4,7 @@
 import {Request, Response, Express} from "express";
 import TuitDao from "../daos/TuitDao";
 import TuitControllerI from "../interfaces/TuitController";
+import Tuit from "../models/Tuit";
 
 /**
  * @class TuitController Implements RESTful Web service API for tuits resource.
@@ -43,7 +44,7 @@ export default class TuitController implements TuitControllerI {
             app.get("/tuits", TuitController.tuitController.findAllTuits);
             app.get("/tuits/:tid", TuitController.tuitController.findTuitById);
             app.get('/users/:uid/tuits', TuitController.tuitController.findTuitsByUser);
-            app.post("/tuits", TuitController.tuitController.createTuit);
+            app.post("/users/:uid/tuits", TuitController.tuitController.createTuit);
             app.put("/tuits/:tid", TuitController.tuitController.updateTuit);
             app.delete("/tuits/:tid", TuitController.tuitController.deleteTuit);
         }
@@ -58,7 +59,8 @@ export default class TuitController implements TuitControllerI {
      * body formatted as JSON containing the new tuit object
      */
     createTuit = (req: Request, res: Response) =>
-        TuitController.tuitDao.createTuit(req.body).then(tuit => res.json(tuit));
+        TuitController.tuitDao.createTuit(req.params.uid, req.body)
+            .then((tuit: Tuit) => res.json(tuit));
 
     /**
      * Deleting a specific tuit
