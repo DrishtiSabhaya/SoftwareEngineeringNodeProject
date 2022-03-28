@@ -36,9 +36,9 @@ export default class LikeController implements LikeControllerI {
     public static getInstance = (app: Express): LikeController => {
         if(LikeController.likeController === null) {
             LikeController.likeController = new LikeController();
-            app.get("/api/users/:uid/likes", LikeController.likeController.findAllTuitsLikedByUser);
-            app.get("/api/tuits/:tid/likes", LikeController.likeController.findAllUsersThatLikedTuit);
-            app.put("/api/users/:uid/likes/:tid", LikeController.likeController.userTogglesTuitLikes);
+            app.get("/users/:uid/likes", LikeController.likeController.findAllTuitsLikedByUser);
+            app.get("/tuits/:tid/likes", LikeController.likeController.findAllUsersThatLikedTuit);
+            app.put("/users/:uid/likes/:tid", LikeController.likeController.userTogglesTuitLikes);
         }
         return LikeController.likeController;
     }
@@ -82,8 +82,9 @@ export default class LikeController implements LikeControllerI {
         const tid = req.params.tid;
         // @ts-ignore
         const profile = req.session['profile'];
-        const userId = uid === "me" && profile ?
+        const userId = uid === "my" && profile ?
             profile._id : uid;
+
         try {
             const userAlreadyLikedTuit = await likeDao.findUserLikesTuit(userId, tid);
             const howManyLikedTuit = await likeDao.countHowManyLikedTuit(tid);
