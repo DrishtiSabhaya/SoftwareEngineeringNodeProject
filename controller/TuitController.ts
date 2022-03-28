@@ -58,9 +58,12 @@ export default class TuitController implements TuitControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON containing the new tuit object
      */
-    createTuit = (req: Request, res: Response) =>
-        TuitController.tuitDao.createTuit(req.params.uid, req.body)
+    createTuit = (req: any, res: Response) => {
+        let userId = req.params.uid === "my" && req.session['profile'] ? req.session['profile']._id : req.params.uid;
+
+        TuitController.tuitDao.createTuit(userId, req.body)
             .then((tuit: Tuit) => res.json(tuit));
+    }
 
     /**
      * Deleting a specific tuit
@@ -101,9 +104,14 @@ export default class TuitController implements TuitControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON arrays containing the tuit objects
      */
-    findTuitsByUser = (req: Request, res: Response) =>
-        TuitController.tuitDao.findTuitsByUser(req.params.uid)
+    findTuitsByUser = (req: any, res: Response) => {
+        console.log("inside create tuit"+ req.params.uid);
+        let userId = req.params.uid === "my" && req.session['profile'] ? req.session['profile']._id : req.params.uid;
+
+        TuitController.tuitDao.findTuitsByUser(userId)
             .then(tuit => res.json(tuit));
+    }
+
 
     /**
      * Updating a specific tuit

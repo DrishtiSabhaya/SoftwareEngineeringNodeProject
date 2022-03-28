@@ -2,8 +2,8 @@
  * @file Implements DAO managing data storage of users. Uses mongoose UserModel
  * to integrate with MongoDB
  */
-import User from "../models/User";
 import UserModel from "../mongoose/UserModel";
+import User from "../models/User";
 import UserDaoI from "../interfaces/UserDao";
 
 /**
@@ -12,7 +12,6 @@ import UserDaoI from "../interfaces/UserDao";
  * @property {UserDao} userDao Private single instance of UserDao
  */
 export default class UserDao implements UserDaoI {
-
     private static userDao: UserDao | null = null;
 
     /**
@@ -25,32 +24,32 @@ export default class UserDao implements UserDaoI {
         }
         return UserDao.userDao;
     }
+    
+    private constructor() {}
 
     /**
-     * Uses UserModel to retrieve all user documents from users collection from the database
-     * @returns Promise To be notified when the users are retrieved
+     * Uses UserModel to retrieve all user documents from users collection
+     * @returns Promise To be notified when the users are retrieved from
+     * database
      */
-    async findAllUsers(): Promise<User[]> {
-        return await UserModel.find();
-    }
+    findAllUsers = async (): Promise<User[]> =>
+        UserModel.find().exec();
 
     /**
-     * Uses UserModel to retrieve single user document from users collection from the database
+     * Uses UserModel to retrieve single user document from users collection
      * @param {string} uid User's primary key
-     * @returns Promise To be notified when user is retrieved
+     * @returns Promise To be notified when user is retrieved from the database
      */
-    async findUserById(uid: string): Promise<any> {
-        return await UserModel.findById(uid);
-    }
+    findUserById = async (uid: string): Promise<any> =>
+        UserModel.findById(uid);
 
     /**
      * Inserts user instance into the database
      * @param {User} user Instance to be inserted into the database
      * @returns Promise To be notified when user is inserted into the database
      */
-    async createUser(user: User): Promise<User> {
-        return await UserModel.create(user);
-    }
+    createUser = async (user: User): Promise<User> =>
+        UserModel.create(user);
 
     /**
      * Updates user with new values in database
@@ -58,10 +57,11 @@ export default class UserDao implements UserDaoI {
      * @param {User} user User object containing properties and their new values
      * @returns Promise To be notified when user is updated in the database
      */
-    async updateUser(uid: string, user: User): Promise<any> {
-        return await UserModel.updateOne({_id: uid}, {$set: user});
-    }
-
+    updateUser = async (uid: string, user: User): Promise<any> =>
+        UserModel.updateOne(
+            {_id: uid},
+            {$set: user});
+    
     updateUserSalaryByUsername = async (username: string, salary: number): Promise<any> =>
         UserModel.updateOne(
             {username},
@@ -85,7 +85,7 @@ export default class UserDao implements UserDaoI {
 
     deleteUsersByUsername = async (username: string): Promise<any> =>
       UserModel.deleteMany({username});
-
+    
     findUserByCredentials = async (username: string, password: string): Promise<any> =>
         UserModel.findOne({username: username, password: password});
 

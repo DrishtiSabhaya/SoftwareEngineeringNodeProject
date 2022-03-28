@@ -1,18 +1,7 @@
-/**
- * @file Implements DAO managing data storage of likes. Uses mongoose LikeModel
- * to integrate with MongoDB
- */
 import LikeDaoI from "../interfaces/LikeDao";
 import LikeModel from "../mongoose/LikeModel";
 import Like from "../models/Like";
-
-/**
- * @class LikeDao Implements Data Access Object managing data storage
- * of Likes
- * @property {LikeDao} likeDao Private single instance of MessageDao
- */
 export default class LikeDao implements LikeDaoI {
-
     private static likeDao: LikeDao | null = null;
 
     /**
@@ -47,7 +36,12 @@ export default class LikeDao implements LikeDaoI {
     findAllTuitsLikedByUser = async (uid: string): Promise<Like[]> =>
         LikeModel
             .find({likedBy: uid})
-            .populate("tuit")
+            .populate({
+                path: "tuit",
+                populate: {
+                    path: "postedBy"
+                }
+            })
             .exec();
 
     /**
@@ -58,6 +52,8 @@ export default class LikeDao implements LikeDaoI {
      */
     userLikesTuit = async (uid: string, tid: string): Promise<any> =>
         LikeModel.create({tuit: tid, likedBy: uid});
+    findUserLikesTuit = async (uid: string, tid: string): Promise<any> =>
+        LikeModel.findOne({tuit: tid, likedBy: uid});
 
     /**
      * Removes tuit from the database.
@@ -67,4 +63,6 @@ export default class LikeDao implements LikeDaoI {
      */
     userUnlikesTuit = async (uid: string, tid: string): Promise<any> =>
         LikeModel.deleteOne({tuit: tid, likedBy: uid});
+    countHowManyLikedTuit = async (tid: string): Promise<any> =>
+        LikeModel.count({tuit: tid});
 }
