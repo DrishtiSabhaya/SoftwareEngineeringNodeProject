@@ -22,7 +22,12 @@ import GroupController from "./controller/GroupController";
 import DislikeController from "./controller/DislikeController";
 const cors = require("cors");
 const session = require("express-session");
-
+const app = express();
+app.use(express.json());
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}));
 // build the connection string
 var url = "mongodb+srv://drishti7:drishti@cluster0.s1acl.mongodb.net/tuitsdb?retryWrites=true&w=majority";
 
@@ -34,13 +39,6 @@ const connection = mongoose.connection;
 connection.once("open", function() {
     console.log("MongoDB database connection established successfully");
 });
-
-const app = express();
-app.use(express.json());
-app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
-}));
 
 const SECRET = 'process.env.SECRET';
 let sess = {
