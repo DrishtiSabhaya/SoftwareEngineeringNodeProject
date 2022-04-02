@@ -39,7 +39,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:3000', 'https://tuit-node-app.herokuapp.com']
+    origin: '*'
 }));
 
 const SECRET = 'process.env.SECRET';
