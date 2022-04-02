@@ -46,7 +46,8 @@ let sess = {
     saveUninitialized: true,
     resave: true,
     cookie: {
-        secure: false
+        sameSite: process.env.ENVIRONMENT === "production" ? 'none' : 'lax',
+        secure: process.env.ENVIRONMENT === "production",
     }
 }
 
