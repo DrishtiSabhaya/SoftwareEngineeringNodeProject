@@ -24,10 +24,7 @@ const cors = require("cors");
 const session = require("express-session");
 const app = express();
 app.use(express.json());
-app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
-}));
+app.use(cors());
 // build the connection string
 var url = "mongodb+srv://drishti7:drishti@cluster0.s1acl.mongodb.net/tuitsdb?retryWrites=true&w=majority";
 
