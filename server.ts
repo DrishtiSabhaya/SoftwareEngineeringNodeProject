@@ -26,7 +26,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:3000'
+    origin: 'https://incredible-moxie-c6ac64.netlify.app'
 }));
 // build the connection string
 var url = "mongodb+srv://drishti7:drishti@cluster0.s1acl.mongodb.net/tuitsdb?retryWrites=true&w=majority";
