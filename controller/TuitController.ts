@@ -105,7 +105,6 @@ export default class TuitController implements TuitControllerI {
      * body formatted as JSON arrays containing the tuit objects
      */
     findTuitsByUser = (req: any, res: Response) => {
-        console.log("inside create tuit"+ req.params.uid);
         let userId = req.params.uid === "my" && req.session['profile'] ? req.session['profile']._id : req.params.uid;
 
         TuitController.tuitDao.findTuitsByUser(userId)
