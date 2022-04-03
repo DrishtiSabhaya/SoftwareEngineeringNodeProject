@@ -7,7 +7,7 @@ export default class DislikeDao implements DislikeDaoI {
 
     /**
      * Creates singleton DAO instance
-     * @returns likeDao
+     * @returns dislikeDao
      */
     public static getInstance = (): DislikeDao => {
         if(DislikeDao.dislikeDao === null) {
@@ -19,7 +19,7 @@ export default class DislikeDao implements DislikeDaoI {
     private constructor() {}
 
     /**
-     * Uses LikeModel to retrieve all user documents that liked a specific tuit from likes collection from the database
+     * Uses DislikeModel to retrieve all user documents that disliked a specific tuit from dislikes collection from the database
      * @param {string} tid Tuit's primary key
      * @returns Promise To be notified when the users are retrieved
      */
@@ -30,7 +30,7 @@ export default class DislikeDao implements DislikeDaoI {
             .exec();
 
     /**
-     * Uses LikeModel to retrieve all tuit documents that are liked a specific user from likes collection from the database
+     * Uses DislikeModel to retrieve all tuit documents that are disliked a specific user from dislikes collection from the database
      * @param {string} uid User's primary key
      * @returns Promise To be notified when the tuits are retrieved
      */
@@ -45,6 +45,11 @@ export default class DislikeDao implements DislikeDaoI {
             })
             .exec();
 
+    /**
+     * Uses Dislike Model to retrieve whether the user disliked the tuit or not.
+     * @param uid User's primary key
+     * @param tid Tuit's primary key
+     */
     findUserDislikesTuit = async (uid: string, tid: string): Promise<any> =>
         DislikeModel.findOne({tuit: tid, dislikedBy: uid});
 
@@ -56,6 +61,11 @@ export default class DislikeDao implements DislikeDaoI {
      */
     userDislikesTuit = async (uid: string, tid: string): Promise<any> =>
         DislikeModel.create({tuit: tid, dislikedBy: uid});
+
+    /**
+     * Uses DislikeModel to count the number of disliked tuit from the database.
+     * @param tid Tuit's primary key
+     */
     countHowManyDislikedTuit = async (tid: string): Promise<any> =>
         DislikeModel.count({tuit: tid});
 }
